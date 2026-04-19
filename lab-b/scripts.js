@@ -13,9 +13,7 @@ class Rzecz {
   }
 }
 class Todo {
-  constructor(tasks) {
-    this.tasks = tasks;
-  }
+
   tasks = [];
 
   erase() {
@@ -33,39 +31,40 @@ class Todo {
   draw() {
     this.erase();
     for (let i = 0; i < this.tasks.length; i++) {
-      lista.appendChild(this.tasks[i]);
+      let nowy_tekst = document.createElement("div");
+      nowy_tekst.className = "tekst";
+      nowy_tekst.textContent = this.tasks[i].tekst;
+
+      let nowa_data = document.createElement("input");
+      nowa_data.className = "data";
+      nowa_data.type = "date";
+      nowa_data.value = this.tasks[i].data;
+
+      let nowe_usuwanie = document.createElement("input");
+      nowe_usuwanie.className = "usuwanie";
+      nowe_usuwanie.type = "button";
+      let tym = this;
+
+      nowe_usuwanie.addEventListener("click", function() {
+        tym.delete(nowe_usuwanie);
+        tym.draw();
+      })
+
+      let nowy_element = document.createElement("li");
+      nowy_element.appendChild(nowy_tekst);
+      nowy_element.appendChild(nowa_data);
+      nowy_element.appendChild(nowe_usuwanie);
+
+      lista.appendChild(nowy_element);
     }
   }
 
   add(rzecz) {
-    let nowy_tekst = document.createElement("div");
-    nowy_tekst.className = "tekst";
-    nowy_tekst.textContent = rzecz.tekst;
-
-    let nowa_data = document.createElement("input");
-    nowa_data.className = "data";
-    nowa_data.type = "date";
-    nowa_data.value = rzecz.data
-
-    let nowe_usuwanie = document.createElement("input");
-    nowe_usuwanie.className = "usuwanie";
-    nowe_usuwanie.type = "button";
-    let tym = this
-
-    nowe_usuwanie.addEventListener("click", function() {
-      tym.delete(nowe_usuwanie)
-      tym.draw()
-    })
-
-    let nowy_element = document.createElement("li");
-    nowy_element.appendChild(nowy_tekst);
-    nowy_element.appendChild(nowa_data);
-    nowy_element.appendChild(nowe_usuwanie);
-    this.tasks.push(nowy_element)
+    this.tasks.push(rzecz)
   }
 }
 
-let todo = new Todo([]);
+let todo = new Todo();
 document.todo = todo;
 
 zapisywanie.addEventListener("click", function() {
