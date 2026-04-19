@@ -4,9 +4,16 @@ wpisywanie_tekstu = document.getElementById("wpisywanie_tekstu");
 wpisywanie_daty = document.getElementById("wpisywanie_daty");
 zapisywanie = document.getElementById("zapisywanie");
 
-
+class Rzecz {
+  tekst;
+  data;
+  constructor(tekst, data) {
+    this.tekst = tekst;
+    this.data = data;
+  }
+}
 class Todo {
-  constructor(tasks){
+  constructor(tasks) {
     this.tasks = tasks;
   }
   tasks = [];
@@ -30,15 +37,15 @@ class Todo {
     }
   }
 
-  add(tekst, data) {
+  add(rzecz) {
     let nowy_tekst = document.createElement("div");
     nowy_tekst.className = "tekst";
-    nowy_tekst.textContent = tekst;
+    nowy_tekst.textContent = rzecz.tekst;
 
     let nowa_data = document.createElement("input");
     nowa_data.className = "data";
     nowa_data.type = "date";
-    nowa_data.value = data
+    nowa_data.value = rzecz.data
 
     let nowe_usuwanie = document.createElement("input");
     nowe_usuwanie.className = "usuwanie";
@@ -62,6 +69,7 @@ let todo = new Todo([]);
 document.todo = todo;
 
 zapisywanie.addEventListener("click", function() {
-  todo.add(wpisywanie_tekstu.value, wpisywanie_daty.value);
+  let rzecz = new Rzecz(wpisywanie_tekstu.value, wpisywanie_daty.value);
+  todo.add(rzecz);
   todo.draw();
 })
