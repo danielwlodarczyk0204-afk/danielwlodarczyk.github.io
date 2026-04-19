@@ -1,3 +1,40 @@
 body {
   background-color: #f3fff3;
 }
+
+#wyszukiwarka {
+  background-color: #4477AA;
+}
+
+#lista {
+
+}
+.tekst {
+  float: left;
+  background-color: #ff0000;
+  width: 50%;
+}
+
+.data {
+  background-color: #00ff00;
+  float: left;
+  width: 40%;
+}
+
+.usuwanie {
+  background-color: #0000ff;
+  float: left;
+  width: 5%;
+}
+
+#wpisywanie_daty {
+
+}
+
+#wpisywanie_tekstu {
+
+}
+
+#zapisywanie {
+
+}
