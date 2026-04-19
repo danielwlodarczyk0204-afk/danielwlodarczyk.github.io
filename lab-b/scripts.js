@@ -3,6 +3,7 @@ wyszukiwarka = document.getElementById("wyszukiwarka");
 wpisywanie_tekstu = document.getElementById("wpisywanie_tekstu");
 wpisywanie_daty = document.getElementById("wpisywanie_daty");
 zapisywanie = document.getElementById("zapisywanie");
+let czy_zaznaczone = -1;
 
 class Rzecz {
   tekst;
@@ -16,6 +17,11 @@ class Todo {
 
   tasks = [];
 
+  znajdz_indeks(element) {
+    return Array.from(lista.children).indexOf(element.parentElement);
+  }
+
+
   erase() {
     while (lista.firstChild) {
       lista.removeChild(lista.firstChild);
@@ -25,7 +31,16 @@ class Todo {
   delete(div_usuwanie) {
     let task = div_usuwanie.parentElement;
     let index = Array.from(lista.children).indexOf(task);
-    this.tasks.splice(index, 1);
+    this.tasks.splice(this.znajdz_indeks(div_usuwanie), 1);
+  }
+
+  odklikniecie() {
+    let stary_tekst = Array.from(lista.children)[czy_zaznaczone].firstChild;
+    let nowy_tekst = document.createElement("div");
+    nowy_tekst.className = "tekst";
+    nowy_tekst.textContent = this.tasks[czy_zaznaczone].tekst;
+    stary_tekst.parentNode.replaceChild(nowy_tekst, stary_tekst);
+    czy_zaznaczone = -1;
   }
 
   draw() {
@@ -55,6 +70,17 @@ class Todo {
       nowy_element.appendChild(nowa_data);
       nowy_element.appendChild(nowe_usuwanie);
 
+      nowy_tekst.addEventListener("click", function() {
+        if (czy_zaznaczone !== -1) {
+          tym.odklikniecie()
+        }
+        czy_zaznaczone = tym.znajdz_indeks(nowy_element);
+        let nowy_tekst_2 = document.createElement("input");
+        nowy_tekst_2.className = "tekst";
+        nowy_tekst_2.textContent = tym.tasks[i].tekst;
+        nowy_tekst.parentNode.replaceChild(nowy_tekst_2, nowy_tekst);
+      })
+
       lista.appendChild(nowy_element);
     }
   }
@@ -71,4 +97,10 @@ zapisywanie.addEventListener("click", function() {
   let rzecz = new Rzecz(wpisywanie_tekstu.value, wpisywanie_daty.value);
   todo.add(rzecz);
   todo.draw();
+})
+
+window.addEventListener("click", function () {
+  if (czy_zaznaczone !== -1) {
+    todo.odklikniecie();
+  }
 })
