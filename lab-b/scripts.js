@@ -14,13 +14,11 @@ class Rzecz {
   }
 }
 class Todo {
-
   tasks = [];
 
   znajdz_indeks(element) {
     return Array.from(lista.children).indexOf(element.parentElement);
   }
-
 
   erase() {
     while (lista.firstChild) {
@@ -29,17 +27,15 @@ class Todo {
   }
 
   delete(div_usuwanie) {
-    let task = div_usuwanie.parentElement;
-    let index = Array.from(lista.children).indexOf(task);
     this.tasks.splice(this.znajdz_indeks(div_usuwanie), 1);
   }
 
-  odklikniecie() {
-    let stary_tekst = Array.from(lista.children)[czy_zaznaczone].firstChild;
+  odklikniecie(element) {
     let nowy_tekst = document.createElement("div");
     nowy_tekst.className = "tekst";
-    nowy_tekst.textContent = this.tasks[czy_zaznaczone].tekst;
-    stary_tekst.parentNode.replaceChild(nowy_tekst, stary_tekst);
+    nowy_tekst.textContent = element.value;
+    this.tasks[this.znajdz_indeks(element)].tekst = element.value;
+    element.parentNode.replaceChild(nowy_tekst, element);
     czy_zaznaczone = -1;
   }
 
@@ -70,17 +66,6 @@ class Todo {
       nowy_element.appendChild(nowa_data);
       nowy_element.appendChild(nowe_usuwanie);
 
-      nowy_tekst.addEventListener("click", function() {
-        if (czy_zaznaczone !== -1) {
-          tym.odklikniecie()
-        }
-        czy_zaznaczone = tym.znajdz_indeks(nowy_element);
-        let nowy_tekst_2 = document.createElement("input");
-        nowy_tekst_2.className = "tekst";
-        nowy_tekst_2.textContent = tym.tasks[i].tekst;
-        nowy_tekst.parentNode.replaceChild(nowy_tekst_2, nowy_tekst);
-      })
-
       lista.appendChild(nowy_element);
     }
   }
@@ -93,14 +78,49 @@ class Todo {
 let todo = new Todo();
 document.todo = todo;
 
+let rzecz1 = new Rzecz("teskt1", "2022-04-25");
+let rzecz2 = new Rzecz("teskt2", "2023-05-25");
+let rzecz3 = new Rzecz("teskt3", "2024-06-26");
+let rzecz4 = new Rzecz("teskt4", "2025-07-27");
+let rzecz5 = new Rzecz("teskt5", "2026-08-28");
+todo.add(rzecz1);
+todo.add(rzecz2);
+todo.add(rzecz3);
+todo.add(rzecz4);
+todo.add(rzecz5);
+
+todo.draw();
 zapisywanie.addEventListener("click", function() {
   let rzecz = new Rzecz(wpisywanie_tekstu.value, wpisywanie_daty.value);
   todo.add(rzecz);
   todo.draw();
 })
 
-window.addEventListener("click", function () {
-  if (czy_zaznaczone !== -1) {
-    todo.odklikniecie();
+window.addEventListener("click", function (event) {
+  if (event.target.className === "tekst") {
+    if (czy_zaznaczone === -1) {
+      czy_zaznaczone = todo.znajdz_indeks(event.target);
+      let nowy_tekst_2 = document.createElement("input");
+      nowy_tekst_2.className = "tekst";
+      nowy_tekst_2.value = event.target.textContent;
+      event.target.parentNode.replaceChild(nowy_tekst_2, event.target);
+    }
+    else {
+      let element = Array.from(lista.children)[czy_zaznaczone].firstChild;
+      if (event.target !== element) {
+        todo.odklikniecie(element);
+        czy_zaznaczone = todo.znajdz_indeks(event.target);
+        let nowy_tekst_2 = document.createElement("input");
+        nowy_tekst_2.className = "tekst";
+        nowy_tekst_2.value = event.target.textContent;
+        event.target.parentNode.replaceChild(nowy_tekst_2, event.target);
+      }
+    }
   }
-})
+  else {
+    if (czy_zaznaczone !== -1) {
+      let element = Array.from(lista.children)[czy_zaznaczone].firstChild;
+      todo.odklikniecie(element);
+    }
+  }
+}, {capture: true})
