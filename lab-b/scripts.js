@@ -54,6 +54,7 @@ class Todo {
       let nowe_usuwanie = document.createElement("input");
       nowe_usuwanie.className = "usuwanie";
       nowe_usuwanie.type = "button";
+      nowe_usuwanie.value = "usuń";
       let tym = this;
 
       nowe_usuwanie.addEventListener("click", function() {

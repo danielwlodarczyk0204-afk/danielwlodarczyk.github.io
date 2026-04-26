@@ -10,20 +10,28 @@
         <script src="scripts.js" defer></script>
     </head>
     <body>
-        <label for="wyszukiwarka">wyszukiwarka:</label> <br>
-        <input type="text" id="wyszukiwarka" />
+    <main>
+        <div class = "bloki">
+            <label for="wyszukiwarka">wyszukiwarka:</label> <br>
+            <input type="text" id="wyszukiwarka" />
+        </div>
 
-        <ul id = "lista">
+        <div class = "bloki" >
+            <ul id = "lista">
 
-        </ul>
-        <label for="wpisywanie_tekstu">wpisywanie_tekstu</label>
-        <input type = "text" id = "wpisywanie_tekstu" />
+            </ul>
+        </div>
 
-        <label for="wpisywanie_daty">wpisywanie_daty</label>
-        <input type = "date" id = "wpisywanie_daty" >
+        <div class = "bloki">
+            <label for="wpisywanie_tekstu">wpisz tekst </label>
+            <input type = "text" id = "wpisywanie_tekstu" /> <br>
 
-        <input type = "button" id = "zapisywanie" >
+            <label for="wpisywanie_daty">wybierz datę </label>
+            <input type = "date" id = "wpisywanie_daty" /> <br>
 
-
+            <input type = "button" id = "zapisywanie" value = "dodaj">
+        </div>
+    </main>
     </body>
+
 </html>
