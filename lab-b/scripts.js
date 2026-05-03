@@ -13,8 +13,22 @@ class Rzecz {
     this.data = data;
   }
 }
+
 class Todo {
   tasks = [];
+
+  wczytaj_z_local_storage() {
+    for (let i = 0; i < localStorage.length; i++) {
+      this.tasks.push(JSON.parse(localStorage.getItem(i.toString())));
+    }
+  }
+
+  zapisz_do_local_storage() {
+    localStorage.clear();
+    for (let i = 0; i < this.tasks.length; i++) {
+      localStorage.setItem(i.toString(), JSON.stringify(this.tasks[i]));
+    }
+  }
 
   znajdz_indeks(element) {
     return Array.from(lista.children).indexOf(element.parentElement);
@@ -28,6 +42,7 @@ class Todo {
 
   delete(div_usuwanie) {
     this.tasks.splice(this.znajdz_indeks(div_usuwanie), 1);
+    this.zapisz_do_local_storage();
   }
 
   odklikniecie(element) {
@@ -72,25 +87,17 @@ class Todo {
   }
 
   add(rzecz) {
-    this.tasks.push(rzecz)
+    this.tasks.push(rzecz);
+    this.zapisz_do_local_storage();
   }
 }
 
 let todo = new Todo();
 document.todo = todo;
 
-let rzecz1 = new Rzecz("teskt1", "2022-04-25");
-let rzecz2 = new Rzecz("teskt2", "2023-05-25");
-let rzecz3 = new Rzecz("teskt3", "2024-06-26");
-let rzecz4 = new Rzecz("teskt4", "2025-07-27");
-let rzecz5 = new Rzecz("teskt5", "2026-08-28");
-todo.add(rzecz1);
-todo.add(rzecz2);
-todo.add(rzecz3);
-todo.add(rzecz4);
-todo.add(rzecz5);
-
+todo.wczytaj_z_local_storage();
 todo.draw();
+
 zapisywanie.addEventListener("click", function() {
   let rzecz = new Rzecz(wpisywanie_tekstu.value, wpisywanie_daty.value);
   todo.add(rzecz);
@@ -124,4 +131,5 @@ window.addEventListener("click", function (event) {
       todo.odklikniecie(element);
     }
   }
+  todo.zapisz_do_local_storage();
 }, {capture: true})
