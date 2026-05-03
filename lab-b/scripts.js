@@ -185,7 +185,7 @@ window.addEventListener("click", function (event) {
   }
 }, {capture: true})
 
-wyszukiwarka.addEventListener("input", function (event) {
+wyszukiwarka.addEventListener("input", function () {
   todo.term = wyszukiwarka.value;
   todo.draw();
 })
