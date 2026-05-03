@@ -5,6 +5,8 @@ wpisywanie_daty = document.getElementById("wpisywanie_daty");
 zapisywanie = document.getElementById("zapisywanie");
 let czy_zaznaczone_tekst = -1;
 let czy_zaznaczone_data = -1;
+let poprzedni_tekst = "---";
+let poprzednia_data = "";
 
 class Rzecz {
   tekst;
@@ -42,6 +44,14 @@ class Todo {
   }
 
   odklikniecie_tekst(element) {
+    if (element.value.trim().length < 3) {
+      alert("Błąd: tekst musi mieć co najmniej 3 znaki!");
+      element.value = poprzedni_tekst;
+    }
+    else if (element.value.trim().length > 255) {
+      alert("Błąd: tekst musi mieć co najwyżej 255 znaków!");
+      element.value = poprzedni_tekst;
+    }
     let nowy_tekst = document.createElement("div");
     nowy_tekst.className = "tekst";
     nowy_tekst.textContent = element.value;
@@ -51,6 +61,10 @@ class Todo {
   }
 
   odklikniecie_data(element) {
+    if ((Date.parse(element.value) < new Date().setHours(0,0,0,0)) && (element.value !== "")) {
+      alert("Błąd: data musi być pusta albo późniejsza niż aktualna!");
+      element.value = poprzednia_data;
+    }
     this.tasks[this.znajdz_indeks(element)].data = element.value;
     czy_zaznaczone_data = -1;
   }
@@ -101,18 +115,31 @@ todo.draw();
 
 zapisywanie.addEventListener("click", function() {
   let rzecz = new Rzecz(wpisywanie_tekstu.value, wpisywanie_daty.value);
-  todo.add(rzecz);
-  todo.draw();
+  if (rzecz.tekst.trim().length < 3) {
+    alert("Błąd: tekst musi mieć co najmniej 3 znaki!");
+  }
+  else if (rzecz.tekst.trim().length > 255) {
+    alert("Błąd: tekst musi mieć co najwyżej 255 znaków!");
+  }
+  else if ((Date.parse(rzecz.data) < new Date().setHours(0,0,0,0)) && (rzecz.data !== "")) {
+    alert("Błąd: data musi być pusta albo późniejsza niż aktualna!");
+  }
+  else {
+    todo.add(rzecz);
+    todo.draw();
+  }
 })
 
 window.addEventListener("click", function (event) {
   if (event.target.className === "data") {
     if (czy_zaznaczone_data === -1) {
+      poprzednia_data = event.target.value;
       czy_zaznaczone_data = todo.znajdz_indeks(event.target);
     }
   }
   else if (event.target.className === "tekst") {
     if (czy_zaznaczone_tekst === -1) {
+      poprzedni_tekst = event.target.textContent;
       czy_zaznaczone_tekst = todo.znajdz_indeks(event.target);
       let nowy_tekst_2 = document.createElement("input");
       nowy_tekst_2.className = "tekst";
@@ -128,6 +155,7 @@ window.addEventListener("click", function (event) {
         nowy_tekst_2.className = "tekst";
         nowy_tekst_2.value = event.target.textContent;
         event.target.parentNode.replaceChild(nowy_tekst_2, event.target);
+        todo.zapisz_do_local_storage();
       }
     }
   }
@@ -135,11 +163,12 @@ window.addEventListener("click", function (event) {
     if (czy_zaznaczone_tekst !== -1) {
       let element = Array.from(lista.children)[czy_zaznaczone_tekst].firstChild;
       todo.odklikniecie_tekst(element);
+      todo.zapisz_do_local_storage();
     }
     if (czy_zaznaczone_data !== -1) {
       let element = Array.from(lista.children)[czy_zaznaczone_data].firstChild.nextSibling;
       todo.odklikniecie_data(element);
+      todo.zapisz_do_local_storage();
     }
   }
-  todo.zapisz_do_local_storage();
 }, {capture: true})
