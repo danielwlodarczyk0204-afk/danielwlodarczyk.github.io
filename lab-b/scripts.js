@@ -19,6 +19,17 @@ class Rzecz {
 
 class Todo {
   tasks = [];
+  term = "";
+
+  filter() {
+    let pasujace_indeksy = [];
+    for (let i = 0; i < this.tasks.length; i++) {
+      if (this.tasks[i].tekst.includes(this.term)) {
+        pasujace_indeksy.push(i);
+      }
+    }
+    return pasujace_indeksy;
+  }
 
   wczytaj_z_local_storage() {
     this.tasks = JSON.parse(localStorage.getItem("tasks"));
@@ -70,16 +81,17 @@ class Todo {
   }
 
   draw() {
+    let pasujace_indeksy = this.filter();
     this.erase();
-    for (let i = 0; i < this.tasks.length; i++) {
+    for (let indeks of pasujace_indeksy) {
       let nowy_tekst = document.createElement("div");
       nowy_tekst.className = "tekst";
-      nowy_tekst.textContent = this.tasks[i].tekst;
+      nowy_tekst.textContent = this.tasks[indeks].tekst;
 
       let nowa_data = document.createElement("input");
       nowa_data.className = "data";
       nowa_data.type = "date";
-      nowa_data.value = this.tasks[i].data;
+      nowa_data.value = this.tasks[indeks].data;
 
       let nowe_usuwanie = document.createElement("input");
       nowe_usuwanie.className = "usuwanie";
@@ -172,3 +184,8 @@ window.addEventListener("click", function (event) {
     }
   }
 }, {capture: true})
+
+wyszukiwarka.addEventListener("input", function (event) {
+  todo.term = wyszukiwarka.value;
+  todo.draw();
+})
