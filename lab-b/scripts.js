@@ -3,7 +3,8 @@ wyszukiwarka = document.getElementById("wyszukiwarka");
 wpisywanie_tekstu = document.getElementById("wpisywanie_tekstu");
 wpisywanie_daty = document.getElementById("wpisywanie_daty");
 zapisywanie = document.getElementById("zapisywanie");
-let czy_zaznaczone = -1;
+let czy_zaznaczone_tekst = -1;
+let czy_zaznaczone_data = -1;
 
 class Rzecz {
   tekst;
@@ -18,16 +19,11 @@ class Todo {
   tasks = [];
 
   wczytaj_z_local_storage() {
-    for (let i = 0; i < localStorage.length; i++) {
-      this.tasks.push(JSON.parse(localStorage.getItem(i.toString())));
-    }
+    this.tasks = JSON.parse(localStorage.getItem("tasks"));
   }
 
   zapisz_do_local_storage() {
-    localStorage.clear();
-    for (let i = 0; i < this.tasks.length; i++) {
-      localStorage.setItem(i.toString(), JSON.stringify(this.tasks[i]));
-    }
+    localStorage.setItem("tasks", JSON.stringify(this.tasks));
   }
 
   znajdz_indeks(element) {
@@ -45,13 +41,18 @@ class Todo {
     this.zapisz_do_local_storage();
   }
 
-  odklikniecie(element) {
+  odklikniecie_tekst(element) {
     let nowy_tekst = document.createElement("div");
     nowy_tekst.className = "tekst";
     nowy_tekst.textContent = element.value;
     this.tasks[this.znajdz_indeks(element)].tekst = element.value;
     element.parentNode.replaceChild(nowy_tekst, element);
-    czy_zaznaczone = -1;
+    czy_zaznaczone_tekst = -1;
+  }
+
+  odklikniecie_data(element) {
+    this.tasks[this.znajdz_indeks(element)].data = element.value;
+    czy_zaznaczone_data = -1;
   }
 
   draw() {
@@ -105,19 +106,24 @@ zapisywanie.addEventListener("click", function() {
 })
 
 window.addEventListener("click", function (event) {
-  if (event.target.className === "tekst") {
-    if (czy_zaznaczone === -1) {
-      czy_zaznaczone = todo.znajdz_indeks(event.target);
+  if (event.target.className === "data") {
+    if (czy_zaznaczone_data === -1) {
+      czy_zaznaczone_data = todo.znajdz_indeks(event.target);
+    }
+  }
+  else if (event.target.className === "tekst") {
+    if (czy_zaznaczone_tekst === -1) {
+      czy_zaznaczone_tekst = todo.znajdz_indeks(event.target);
       let nowy_tekst_2 = document.createElement("input");
       nowy_tekst_2.className = "tekst";
       nowy_tekst_2.value = event.target.textContent;
       event.target.parentNode.replaceChild(nowy_tekst_2, event.target);
     }
     else {
-      let element = Array.from(lista.children)[czy_zaznaczone].firstChild;
+      let element = Array.from(lista.children)[czy_zaznaczone_tekst].firstChild;
       if (event.target !== element) {
-        todo.odklikniecie(element);
-        czy_zaznaczone = todo.znajdz_indeks(event.target);
+        todo.odklikniecie_tekst(element);
+        czy_zaznaczone_tekst = todo.znajdz_indeks(event.target);
         let nowy_tekst_2 = document.createElement("input");
         nowy_tekst_2.className = "tekst";
         nowy_tekst_2.value = event.target.textContent;
@@ -126,9 +132,13 @@ window.addEventListener("click", function (event) {
     }
   }
   else {
-    if (czy_zaznaczone !== -1) {
-      let element = Array.from(lista.children)[czy_zaznaczone].firstChild;
-      todo.odklikniecie(element);
+    if (czy_zaznaczone_tekst !== -1) {
+      let element = Array.from(lista.children)[czy_zaznaczone_tekst].firstChild;
+      todo.odklikniecie_tekst(element);
+    }
+    if (czy_zaznaczone_data !== -1) {
+      let element = Array.from(lista.children)[czy_zaznaczone_data].firstChild.nextSibling;
+      todo.odklikniecie_data(element);
     }
   }
   todo.zapisz_do_local_storage();
