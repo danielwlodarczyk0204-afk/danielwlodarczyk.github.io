@@ -1,9 +1,32 @@
+.tekst:hover {
+  background-color: #aaad28;
+}
+
+.tekst:read-write {
+  background-color: #b3dbff;
+}
+
+:read-write {
+  background-color: #b3dbff;
+}
+
+:read-write:focus {
+  background-color: #57b1f6;
+}
+
 body {
   background-color: #f3fff3;
 }
 
+input,.tekst {
+  border-radius: 6px;
+  padding: 0 3px 0 3px;
+  margin: 2px;
+  border: 2px solid black;
+}
+
 main {
-  width: 500px;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -12,44 +35,46 @@ main {
   margin: 0 0 30px 0;
 }
 
-#wyszukiwarka {
-  border-radius: 6px;
-}
-
 #lista {
   list-style-type: none;
-  display: inline-block;
 }
 
 .tekst {
-  float: left;
-  background-color: #2ba099;
-  width: 250px;
-  border-radius: 6px;
+  background-color: #d0d52c;
+  min-width: 30px;
+  flex-grow: 1;
+  overflow-wrap: break-word;
 }
 
 .data {
-  background-color: #17bf17;
-  float: left;
   width: auto;
-  border-radius: 6px;
+}
+
+li {
+  display: flex;
 }
 
 .usuwanie {
-  background-color: #e83d3d;
-  float: left;
+  background-color: #f56161;
   width: auto;
-  border-radius: 6px;
 }
 
-#wpisywanie_daty {
-  border-radius: 6px;
+.usuwanie:hover {
+  background-color: #a81b1b;
 }
 
-#wpisywanie_tekstu {
-  border-radius: 6px;
+#wpisywanie_daty,.data {
+  background-color: #f69933;
+}
+
+#wpisywanie_daty:hover,#wpisywanie_daty:focus-within,.data:hover,.data:focus-within {
+  background-color: #b8712a;
 }
 
 #zapisywanie {
-  border-radius: 6px;
+  background-color: #3ae33a;
+}
+
+#zapisywanie:hover {
+  background-color: #1d9a1d;
 }
