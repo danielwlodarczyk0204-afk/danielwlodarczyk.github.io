@@ -66,7 +66,7 @@ class Todo {
 
   indeks_tablicy_na_element_listy(indeks_tablicy) {
     let pasujace_indeksy = this.filter();
-    let indeks = 0;
+    let indeks = -1;
     for (let i = 0; i < pasujace_indeksy.length; i++) {
       if (pasujace_indeksy[i] === indeks_tablicy) {
         indeks = i;
@@ -211,10 +211,11 @@ window.addEventListener("click", function (event) {
     }
     else {
       let indeks_listy = todo.znajdz_indeks_listy(event.target)
-      let elem_listy_tekst = Array.from(lista.children)[indeks_listy].firstChild;
-      if (event.target !== elem_listy_tekst) {
-        todo.odklikniecie_tekst(elem_listy_tekst);
-        let indeks_listy = todo.znajdz_indeks_listy(event.target)
+      let indeks_listy_stary = todo.indeks_tablicy_na_element_listy(czy_zaznaczone_tekst);
+      let elem_listy_tekst_stary;
+      elem_listy_tekst_stary = Array.from(lista.children)[indeks_listy_stary].firstChild;
+      if (event.target !== elem_listy_tekst_stary) {
+        todo.odklikniecie_tekst(elem_listy_tekst_stary);
         czy_zaznaczone_tekst = todo.indeks_listy_na_indeks_tablicy(indeks_listy);
         let nowy_tekst_2 = document.createElement("input");
         nowy_tekst_2.className = "tekst";
