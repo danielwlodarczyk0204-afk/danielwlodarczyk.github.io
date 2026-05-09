@@ -78,3 +78,7 @@ li {
 #zapisywanie:hover {
   background-color: #1d9a1d;
 }
+
+::selection {
+  background-color: #84e8e0;
+}
