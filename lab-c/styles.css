@@ -1,3 +1,88 @@
 body {
   background-color: #e6f1fc;
 }
+
+#container {
+  width: 1800px;
+  height: 1500px;
+  background-color: moccasin;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#mapa_obrazek,#kafelki{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+#mapa_obrazek {
+  width: 1470px;
+  height: 500px;
+  background-color: plum;
+}
+
+#mapa {
+  width: 600px;
+  height: 400px;
+  background-color: mediumvioletred;
+  float: left;
+  margin: 30px;
+}
+
+#obrazek {
+  width: 600px;
+  height: 400px;
+  background-color: darkgoldenrod;
+  float: right;
+  margin: 30px;
+}
+
+.pole {
+  float: left;
+  width: 150px;
+  height: 100px;
+}
+
+#pole1 {
+  background-color: moccasin;
+}
+
+#pole4 {
+  background-color: #af9721;
+}
+
+#pole5 {
+  background-color: #df0751;
+}
+
+#pole16 {
+  background-color: #00ff77;
+}
+
+#przycisk_lokalizacja {
+  margin-left: 30px;
+  float: left;
+  clear: both;
+}
+
+#przycisk_zapisywanie_mapy {
+  float: left;
+  margin-left: 10px;
+}
+
+#kafelki {
+  width: 1440px;
+  height: 260px;
+  margin-top: 80px;
+  padding: 15px 15px 15px 15px;
+  background-color: indianred;
+}
+
+.kafelek {
+  width: 150px;
+  height: 100px;
+  background-color: lawngreen;
+  margin: 15px;
+  float: left;
+}
