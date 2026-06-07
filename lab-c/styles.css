@@ -30,7 +30,7 @@ body {
   margin: 30px;
 }
 
-#obrazek {
+#pola {
   width: 600px;
   height: 400px;
   background-color: darkgoldenrod;
@@ -42,22 +42,7 @@ body {
   float: left;
   width: 150px;
   height: 100px;
-}
-
-#pole1 {
-  background-color: moccasin;
-}
-
-#pole4 {
-  background-color: #af9721;
-}
-
-#pole5 {
-  background-color: #df0751;
-}
-
-#pole16 {
-  background-color: #00ff77;
+  border-width: 3px;
 }
 
 #przycisk_lokalizacja {

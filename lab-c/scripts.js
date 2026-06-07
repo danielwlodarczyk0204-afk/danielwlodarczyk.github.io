@@ -1,3 +1,25 @@
+let div_kafelki = document.getElementById("kafelki")
+let div_pola = document.getElementById("pola")
+
+for (let i = 0; i < 16; i++) {
+  let kafelek = document.createElement("canvas")
+  kafelek.className = "kafelek";
+  kafelek.id = "kafelek${i}";
+  kafelek.width = 150;
+  kafelek.height = 100;
+  div_kafelki.append(kafelek);
+}
+
+for (let i = 0; i < 16; i++) {
+  let pole = document.createElement("div")
+  pole.className = "pole";
+  pole.id = "pole${i}";
+  div_pola.append(pole);
+}
+
+let kafelki = document.querySelectorAll(".kafelek");
+let pola = document.querySelectorAll(".pole");
+
 let przycisk_lokalizacja = document.getElementById("przycisk_lokalizacja");
 let map = L.map('mapa').setView([53.430127, 14.564802], 18);
 // L.tileLayer.provider('OpenStreetMap.DE').addTo(map);
@@ -19,17 +41,11 @@ document.getElementById("przycisk_zapisywanie_mapy").addEventListener("click", f
       }
     }
 
-    let kafelki = document.querySelectorAll(".kafelek")
-
     for (let i = 0; i < 16; i++) {
       let kafelek = kafelki[kolejnosc[i]];
-      kafelek.width = 150;
-      kafelek.height = 100;
       let kaf_context = kafelek.getContext("2d");
       kaf_context.drawImage(canvas, 150 * (i % 4) , 100 * Math.floor(i / 4), 150, 100, 0, 0, 150, 100)
     }
-    console.log(canvas.width);
-    console.log(canvas.height);
   });
 });
 
