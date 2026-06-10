@@ -13,7 +13,26 @@ function sprawdz(pola) {
       return 0;
     }
   }
-  alert("gratulacje!!!");
+
+  // spolszczona część kodu ze strony https://developer.mozilla.org/en-US/docs/Web/API/Notification
+  if (!("Notification" in window)) {
+    // Check if the browser supports notifications
+    alert("Ta przeglądarka nie wspiera notyfikacji systemowych.");
+  } else if (Notification.permission === "granted") {
+    // Check whether notification permissions have already been granted;
+    // if so, create a notification
+    const notification = new Notification("Gratulacje! Ułożyłeś/aś poprawnie wszystkie puzzle!");
+    // …
+  } else if (Notification.permission !== "denied") {
+    // We need to ask the user for permission
+    Notification.requestPermission().then((permission) => {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        const notification = new Notification("Gratulacje! Ułożyłeś/aś poprawnie wszystkie puzzle!");
+        // …
+      }
+    });
+  }
 }
 
 function utworz_pola() {
